@@ -1,56 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <script src="https://lpcdn.lpsnmedia.net/webagent/client-SDK.min.js"></script>
-    <script>
-        var notificationHandler = function(data) {
-            console.log(data);
-            // Do something with the notifications
+Visitor name for authentication: <input style="border: solid 2px #000" id="visitorNameForUMSAuth" type="text">
+<button id="authButton" style="font-size: 15px;" onclick="doLogIn()">Login!</button></div>
+<button id="logoutButton" style="font-size: 15px;" onclick="doLogout()">Logout!</button></div>
+
+<script>
+    var authurl = "https://exampleauth.cloud.lprnd.net:1980";
+
+    var username ="";
+
+    function doLogIn() {
+        username = document.getElementById("visitorNameForUMSAuth").value;
+        login(username);
+        lpTag.sdes.push({"type": "ctmrinfo", "info": {customerId: username}});
+        updatesdes(username);
+        window.LPJsMethodName = function (callback) {
+            callback(username);
         };
-        var focusHandler = function() {
-            // Do something when the visitor is focused
-            // Assume the visitor is focused to begin with
+    }
+
+    function updatesdes (username){
+        var settings = {
+            "headers": {
+                "content-type": "application/json"//,
+            },
+            "data": "[{ \"type\": \"personal\", \"personal\": { \"firstname\": \"John\", \"lastname\": \"Doe\", \"age\": { \"age\": 41.4, \"year\": 1974, \"month\": 10, \"day\": 2 }, \"contacts\": [{ \"email\": \"mail@lp.com\", \"phone\": \"1234565\" }, { \"email\": \"123@lp.com\", \"phone\": \"33333333\" }, { \"phone\": \"4444444\" }], \"gender\": \"MALE\", \"company\": \"LivePerson\" } }, { \"type\": \"ctmrinfo\", \"info\": { \"cstatus\": \"ONLINE\", \"ctype\": \"VIP\", \"loginStatus\": 1, \"companyBranch\": \"APC\", \"socialId\": \"soc123\", \"imei\": \"1233454567\", \"userName\": \"user123\", \"companySize\": 200, \"customerId\": \"id1234567\", \"balance\": 2300, \"accountName\": \"LP\", \"role\": \"r1\", \"lastPaymentDate\": { \"day\": 2, \"month\": 8, \"year\": 2015 }, \"registrationDate\": { \"day\": 18, \"month\": 8, \"year\": 2015 } } }]"
         };
-        var blurHandler = function() {
-            // Do something when the visitor is blurred
-            // Assume the visitor is focused to begin with
-        };
-        lpTag.agentSDK.init({
-            notificationCallback: notificationHandler,
-            visitorFocusedCallback: focusHandler,
-            visitorBlurredCallback: blurHandler
+//        console.log(settings);
+
+        $.post(authurl + "/updateSdes?username=" + username, settings).done(function (response) {
+            console.log(response);
         });
+    }
 
+    function login(username) {
+        var settings = {
+            "url": authurl + "/login?username=" + username,
+            "method": "GET"
+        }
 
-        var updateCallback = function(data) {
-            // Do something with the returning data
-            debugger;
-            var path = data.key;
-            var value = data.newValue;
-            // called each time the value is updated.
-            // If there's an existing value when bind is called - this callback
-            // will be called with the existing value
-        };
+        $.ajax(settings).done(function (response) {
+//            console.log(response);
+        });
+    }
 
-        var notifyWhenDone = function(err) {
-            if (err) {
-                // Do something with the error
-            }
-            // called when the bind is completed successfully,
-            // or when the action terminated with an error.
-        };
+    function doLogout () {
+        var settings = {
+            "url": authurl + "/logout?username=" + username,
+            "method": "GET"
+        }
 
-        var pathToData = "visitorInfo";
-        lpTag.agentSDK.bind(pathToData, updateCallback, notifyWhenDone);
+        $.ajax(settings).done(function (response) {
+//            console.log(response);
+        });
+    }
 
-
-
-
-    </script>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+</script>
