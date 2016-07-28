@@ -1,0 +1,63 @@
+html, body {
+    background: azure;
+    height: 100%;
+    width: 100%;
+    overflow: hidden
+}
+
+#notification_container {
+    overflow: auto;
+    font-size: 12px;
+    height: 65%;
+    margin-top: 15%;
+    width: 98%;
+}
+
+h1 {
+    text-align: -webkit-center;
+}
+
+button {
+    position: relative;
+    left: 20%;
+}
+
+#queryParamsContainer {
+    display: none;
+    background: beige;
+    margin-left: 5px;
+    margin-right: 15px;
+    top: 40%;
+    position: absolute;
+}
+
+#queryParamsContainer p {
+    font-size: 11px;
+}
+
+form {
+    float: right;
+    margin-left: 60px;
+    margin-top: 5px;
+}
+
+input {
+    width: 40px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+#buttons_container {
+    float: left;
+    margin-left: 5%;
+}
+
+#notification_interval_button {
+    width: 150px;
+    text-align: center;
+    left: 0;
+    background: greenyellow;
+}
+
+
+
